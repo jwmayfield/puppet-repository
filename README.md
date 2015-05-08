@@ -5,6 +5,7 @@ Requires the following boxen modules:
 Supports:
 
 * git
+* mercurial
 
 ## Usage
 
@@ -16,7 +17,11 @@ repository {
   'my emacs config':
     source   => 'git://github.com/wfarr/.emacs.d.git',
     path     => '/etc/emacs.d',
-    provider => 'git',
+    provider => 'git';
+  'mercurial source':
+    source   => 'http://selenic.com/hg',
+    path     => '/path/to/code',
+    provider => 'mercurial';
 }
 ```
 
@@ -50,5 +55,18 @@ repository {
     source   => 'git://github.com/wfarr/.emacs.d.git',
     path     => '/etc/emacs.d',
     provider => 'git',
+}
+```
+
+## Caveats
+
+Default boxen will set up some defaults for git that mercurial won't like,
+to override them you can use:
+
+```puppet
+Repository <| provider == 'mercurial' |> {
+  extra    => undef,
+  config   => undef,
+  require  => undef,
 }
 ```
